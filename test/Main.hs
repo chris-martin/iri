@@ -99,4 +99,9 @@ main =
                         (fmap C.iri (D.uri "https://www.pleer.ru/search_%e4%eb%ff+%e1%e5%eb%fc%ff+%f1%f3%f8%e8%eb%ea%e0.html"))
                   ]
             ]
+        , testCase "IPv6"
+            $ assertEqual
+              ""
+              (Right "http://[2001:db8:85a3:8d3:1319:8a2e:370:7348]")
+              (fmap C.iri (D.uri "http://[2001:db8:85a3:8d3:1319:8a2e:370:7348]"))
       ]

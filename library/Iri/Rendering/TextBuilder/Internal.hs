@@ -93,7 +93,7 @@ host =
   \case
     NamedHost value -> regName value
     IpV4Host value -> ipV4 value
-    IpV6Host value -> ipV6 value
+    IpV6Host value -> char '[' <> ipV6 value <> char ']'
 
 regName :: RegName -> TextBuilder
 regName (RegName vector) =

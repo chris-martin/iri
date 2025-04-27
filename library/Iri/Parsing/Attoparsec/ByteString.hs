@@ -74,6 +74,16 @@ semicolon :: Parser Word8
 semicolon =
   word8 59
 
+{-# INLINE openBracket #-}
+openBracket :: Parser Word8
+openBracket =
+  word8 91
+
+{-# INLINE closeBracket #-}
+closeBracket :: Parser Word8
+closeBracket =
+  word8 93
+
 {-# INLINE labeled #-}
 labeled :: String -> Parser a -> Parser a
 labeled label parser =
@@ -168,6 +178,7 @@ host =
 ipV6 :: Parser IPv6
 ipV6 =
   do
+    _ <- openBracket
     a <- F.hexadecimal
     _ <- colon
     b <- F.hexadecimal
@@ -176,7 +187,7 @@ ipV6 =
     _ <- colon
     d <- F.hexadecimal
     _ <- colon
-    mplus
+    addr <- mplus
       ( do
           e <- F.hexadecimal
           _ <- colon
@@ -191,6 +202,8 @@ ipV6 =
           _ <- colon
           return (N.fromWord16s a b c d 0 0 0 0)
       )
+    _ <- closeBracket
+    return addr
 
 {-# INLINE regName #-}
 regName :: Parser RegName
